@@ -1,4 +1,15 @@
-## Disable swap memory
+# Users
+## Grant sudo access without password
+### Ubuntu 20.04
+`usermod -aG sudo <username>` # Add user to sudo group  
+Another way is, Adding user to sudoers file
+```sh
+visudo
+<username>  ALL=(ALL) NOPASSWD:ALL
+#Save and exit
+```
+# Disable swap memory
+## Ubuntu 20.04
 Check swap memory status
 ```sh
 worker1@worker1:~$ swapon -s
