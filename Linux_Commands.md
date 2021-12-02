@@ -13,7 +13,25 @@ Usage | Command
 # Users
 Usage | Command
 ----- | -------
-current user | `who am i`
+current user | `whoami`
 List of all logged in users | `who`
-Add a user | `sudo useradd <uname> -s /sbin/nologin`#Add a user without login access
+Add an user | `sudo useradd <username>`
+Set password for an user | `sudo passwd <username>`
+Add a user without login access | `sudo useradd <uname> -s /sbin/nologin`
 Switch user<br />Swich to root user | `su <username>` <br /> `su` or `su bash` 
+Delete an user | `sudo userdel <username>`
+
+# Groups
+Usage | Command
+----- | -------
+Add a group | `sudo groupadd <groupname>`
+Add an user to group | `sudo useradd -g <Groupname> <username>`
+Delete a group | `sudo groupdel <groupname>`
+
+# grep  (Search)
+Usage | Command
+----- | -------
+Search in a file | `grep <pattern> <filename>`
+Case insensitive | `grep -i <pattern> <filename>`
+Search results with line numbers | `grep -in <pattern> <filename>`
+Search that doesnt match | `grep -iv <pattern> <filename>`
