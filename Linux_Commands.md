@@ -16,3 +16,4 @@ Usage | Command
 current user | `who am i`
 List of all logged in users | `who`
 Add a user | `sudo useradd <uname> -s /sbin/nologin`#Add a user without login access
+Switch user<br />Swich to root user | `su <username>` <br /> `su` or `su bash` 
