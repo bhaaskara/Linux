@@ -39,3 +39,10 @@ vi /etc/fstab
 > Insert # infront of the line with swap
 > Save and exit
 ```
+# Change the hostname
+Modift the `/etc/hostname` file  
+```sh
+vi /etc/hostname
+<hostname>
+```
+restart the server `init 6`  
