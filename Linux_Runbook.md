@@ -1,13 +1,3 @@
-# Users
-## Grant sudo access without password
-### Ubuntu 20.04
-`usermod -aG sudo <username>` # Add user to sudo group  
-Another way is, Adding user to sudoers file
-```sh
-visudo
-<username>  ALL=(ALL) NOPASSWD:ALL
-#Save and exit
-```
 # Disable swap memory
 ## Ubuntu 20.04
 Check swap memory status
@@ -46,3 +36,50 @@ vi /etc/hostname
 <hostname>
 ```
 restart the server `init 6`  
+# Disable SELINUX on REDHAT/CentOS
+Check the current SELinux status
+```
+sudo sestatus
+```
+Disable SELinux temporarily
+```
+sudo setenforce 0
+```
+Check it with `getenforce`  
+
+Disable SELINUX permanently
+```sh
+vi /etc/selinux/config
+#set the
+SELINUX=disabled
+```
+Reboot the server `init 6`  
+# Disable firewall
+## on REDHAT/CentOS
+Check the firewall status
+```
+sudo firewall-cmd --state
+```
+Stop the firewall
+```
+sudo systemctl stop firewalld
+```
+Disable it permanantly
+```
+sudo systemctl disable firewalld
+```
+Mask the FirewallD service which will prevent the firewall being started by other services
+```
+sudo systemctl mask --now firewalld
+```
+
+# Users
+## Grant sudo access without password
+### Ubuntu 20.04
+`usermod -aG sudo <username>` # Add user to sudo group  
+Another way is, Adding user to sudoers file
+```sh
+visudo
+<username>  ALL=(ALL) NOPASSWD:ALL
+#Save and exit
+```
