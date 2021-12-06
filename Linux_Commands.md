@@ -10,7 +10,17 @@ Usage | Command
   Reboot | `sudo reboot` #Server will be rebooted immediatly </br>`sudo shutdown -r` #Rebooted after a min </br>`sudo shutdown -r +10` #Reboot after 10 min</br>`sudo shutdown -r 16:15` #Scheduled reboot</br>`sudo shutdown -c`#Cancel the schedule reboot
   Port status | `netstat -anp \|grep <PortNum>`
   Memory usage | `free -m`
-  
+
+## Install a Package/Software
+### CentOS / Redhat
+Usage | Command
+------ | ------
+Search for a package | `yum list <pkg>`
+Pachage info | `yum info <pkg>`
+Install a package | `yum install <pkg> -y`
+Install a package from rpm file | `yum localinstall <rpmfile> -y`
+
+
 # Users
 Usage | Command
 ----- | -------
