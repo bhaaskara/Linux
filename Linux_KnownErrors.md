@@ -13,3 +13,12 @@
    ```
    sudo systemctl restart network
    ```
+
+## Delta RPMs disabled because applydeltarpm not installed  
+**ERROR: Delta RPMs disabled because /usr/bin/applydeltarpm not installed.**  
+Delta rpms (DRMS) created to save bandwidth and speed up download patches and rpm packages from the Internet. With DRMS, you download only minor changes instead of grabbing full packages. In other words, only changes (updates) between the installed and new packages are downloads.  
+
+```sh
+sudo yum install deltarpm
+sudo yum update
+```
