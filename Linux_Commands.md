@@ -20,6 +20,10 @@ Pachage info | `yum info <pkg>`
 Install a package | `yum install <pkg> -y`
 Install a package from rpm file | `yum localinstall <rpmfile> -y`
 
+### Ubuntu
+Usage | Command
+------ | ------
+List installed packages | `apt list --installed`
 
 # Users
 Usage | Command
