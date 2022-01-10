@@ -101,3 +101,7 @@ o/p only unique/Remove duplicates | `unique <filename>`
 Usage | Command
 ----- | -------
 monitor a command <br/> o/p refreshes every 2 secs| `watch <command>`
+
+# Base64 encoding/decoding
+base64 encoding: `echo -n 'string' | base64`
+base64 decoding: `echo "encodedstring" | base64 --decode`
