@@ -5,12 +5,13 @@ User details | `/etc/passwd`
 
 # System commands
 Usage | Command
------- | ------
+:------ | :------
   OS Version | `cat /etc/os-release`#For Ubuntu</br>`cat /etc/redhat-release`#For Redhat</br>`cat /etc/centos-release`#For Centos
+  Kernel Version | `uname -a` </br> `hostnamectl status`
   Reboot | `sudo reboot` #Server will be rebooted immediatly </br>`sudo shutdown -r` #Rebooted after a min </br>`sudo shutdown -r +10` #Reboot after 10 min</br>`sudo shutdown -r 16:15` #Scheduled reboot</br>`sudo shutdown -c`#Cancel the schedule reboot
   Port status | `netstat -anp \|grep <PortNum>`
   Memory usage | `free -m`
-
+  Shell   | `echo $SHELL`
 ## Install a Package/Software
 ### CentOS / Redhat
 Usage | Command
