@@ -69,8 +69,8 @@ A **hypervisor**, also known as a virtual machine monitor or VMM, is software th
 -   Are extremely portable since in a container, an application has everything it needs to run.
 
 ## What is shell
-Shell is the user interface for a Linux OS.
-`echo $SHELL` to know your current shell.
+Shell is the user interface for a Linux OS.  
+`echo $SHELL` to know your current shell.  
 ex: Bash, Cshell, ksh
 
 ## Physical, Virtual and Cloud servers
@@ -115,24 +115,21 @@ In the FHS, all files and directories appear under the root directory / , even i
 Most of these directories exist in all UNIX operating systems and are generally used in much the same way.
 
 **Common Directories**   
-/                     - "Root," the top of the file system hierarchy
-|__  /bin         - Binaries and other executable programs
-|__  /boot       - contains static files required to boot the system
-|__  /dev        - contains device nodes that represent the devices attached to the system
-|__  /etc         - System configuration files
-|__  /home     - Users' home directories 
-|__  /lib
-|__  /media   - Automatically detected removable media is mounted in the `/media` directory.
-|__  /mnt       - reserved for temporarily mounted file systems, such as NFS file system 
-                        mounts.
-|__  /opt        - reserved for software and add-on packages that are not part of the default 
-                        installation.
-|__  /srv        - contains site specific data served by RHEL system
-|__  /tmp       - Temporary files. Often not preserved between system reboots   
-|__  /usr        - (multi-)user utilities and applications
-|__  /proc     - contains special files that either extract information from the kernel or send 
-                       information to it
-|__  /var        - log files
+/                     - "Root," the top of the file system hierarchy  
+|__  /bin         - Binaries and other executable programs  
+|__  /boot       - contains static files required to boot the system  
+|__  /dev        - contains device nodes that represent the devices attached to the system  
+|__  /etc         - System configuration files  
+|__  /home     - Users' home directories   
+|__  /lib  
+|__  /media   - Automatically detected removable media is mounted in the `/media` directory.  
+|__  /mnt       - reserved for temporarily mounted file systems, such as NFS file system mounts. 
+|__  /opt        - reserved for software and add-on packages that are not part of the default installation.
+|__  /srv        - contains site specific data served by RHEL system  
+|__  /tmp       - Temporary files. Often not preserved between system reboots     
+|__  /usr        - (multi-)user utilities and applications  
+|__  /proc     - contains special files that either extract information from the kernel or send information to it
+|__  /var        - log files  
 
 /  - "Root," the top of the file system hierarchy.   
    - Every single file and directory starts from the root directory 
