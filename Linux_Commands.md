@@ -106,3 +106,10 @@ monitor a command <br/> o/p refreshes every 2 secs| `watch <command>`
 # Base64 encoding/decoding
 base64 encoding: `echo -n 'string' | base64`
 base64 decoding: `echo "encodedstring" | base64 --decode`
+# Networking
+Usage | Command
+:-----| :-------
+IP address | `ifconfig -a`
+
+# Edit text files
+## Vi Editor

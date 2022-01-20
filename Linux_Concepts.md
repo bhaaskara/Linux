@@ -83,3 +83,92 @@ OS is installed on hypervisor, resources (RAM,DISK and NIC) are shared.
 The underlying hardware/server will be mostly deployed on remote Data Centers owned by individual companies.
 ### Cloud servers
 The servers are deployed on cloud providers(ex Amazon, Microsoft, or Google) data centers.
+
+## Linux Login methods
+- ssh
+    - Password authentication
+    - Public key authentication
+- Console login
+- LDAP
+- SSO
+- Multifactor Authentication
+- 2FA 
+
+### SSH login
+More widely used authentication/login method.
+Use SSH client (putty) to log into the server remotely over port 22.
+
+Setup SSH
+Enable root login
+https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/6/html/v2v_guide/preparation_before_the_p2v_migration-enable_root_login_over_ssh
+Enable remote login
+Configure password less authentication/ Public key authentication
+
+## File System Structure
+`Ref: https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/storage_administration_guide/ch-filesystem`
+
+Red Hat Enterprise Linux uses the _Filesystem Hierarchy Standard_ (_FHS_) file system structure, which defines the names, locations, and permissions for many file types and directories.
+
+The Linux File Hierarchy Structure or the Filesystem Hierarchy Standard (FHS)   
+defines the directory structure and directory contents in Unix-like operating systems.   
+In the FHS, all files and directories appear under the root directory / , even if they are stored on different physical or virtual devices.   
+Most of these directories exist in all UNIX operating systems and are generally used in much the same way.
+
+**Common Directories**   
+/                     - "Root," the top of the file system hierarchy
+|__  /bin         - Binaries and other executable programs
+|__  /boot       - contains static files required to boot the system
+|__  /dev        - contains device nodes that represent the devices attached to the system
+|__  /etc         - System configuration files
+|__  /home     - Users' home directories 
+|__  /lib
+|__  /media   - Automatically detected removable media is mounted in the `/media` directory.
+|__  /mnt       - reserved for temporarily mounted file systems, such as NFS file system 
+                        mounts.
+|__  /opt        - reserved for software and add-on packages that are not part of the default 
+                        installation.
+|__  /srv        - contains site specific data served by RHEL system
+|__  /tmp       - Temporary files. Often not preserved between system reboots   
+|__  /usr        - (multi-)user utilities and applications
+|__  /proc     - contains special files that either extract information from the kernel or send 
+                       information to it
+|__  /var        - log files
+
+/  - "Root," the top of the file system hierarchy.   
+   - Every single file and directory starts from the root directory 
+   - Only root user has the right to write under this directory.   
+   - /root is root user's home directory, which is not same as /
+
+/bin  - Binaries and other executable programs.
+   - Common linux commands are located here e.g. ps, Is, ping, grep, cp
+
+/boot - contains static files required to boot the system, for example, the Linux kernel. 
+           These files are essential for the system to boot properly.
+> Note: Do not remove the `/boot/` directory. Doing so renders the system unbootable.
+
+           
+/etc  - System configuration files.   
+   - Contains configuration files required by all programs.   
+   - This also contains startup and shutdown shell scripts used to start/stop individual 
+       programs.   
+      Example: /etc/resolv.conf, /etc/logrotate.conf.
+
+/home - Users' home directories  
+   • Home directories for all users to store their personal files, and settings.  
+   • Example: /home/userl, /home/user2
+
+/opt   - Optional application software packages.   
+   - Contains add-on applications from individual vendors.   
+   - Add-on applications installed through rpms should be installed under either /opt/ 
+      or /opt/sub-directory.
+
+/tmp - Temporary files. Often not preserved between system reboots    
+   • Directory that contains temporary files created by system and users.   
+   • Files under this directory are deleted when system is rebooted.
+
+/usr - Secondary hierarchy for read-only user data
+   - contains the majority of (multi-)user utilities and applications.
+
+/var  - Variable data, most notably log files.
+
+/proc - contains special files that either extract information from the kernel or send information to it. Examples of such information include system memory, CPU information, and hardware configuration
