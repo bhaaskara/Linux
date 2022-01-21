@@ -169,3 +169,42 @@ Most of these directories exist in all UNIX operating systems and are generally 
 /var  - Variable data, most notably log files.
 
 /proc - contains special files that either extract information from the kernel or send information to it. Examples of such information include system memory, CPU information, and hardware configuration
+
+# Users
+`Ref: https://www.redhat.com/sysadmin/linux-user-group-management`
+
+## Managing Users
+### /etc/passwd file
+User account information is stored in the `/etc/passwd` file.
+This information includes the account name, home directory location, and default shell, among other values.
+
+Example of /etc/passwd file
+`username:password:UID:GID:comment:home:shell`
+`user1:x:1001:1001::/home/user1:/bin/bash`
+
+> /etc/passwd file should not be edited directly by tools such as Vi.
+### /etc/shadow file
+Long ago, password hashes were stored in the `/etc/passwd` file. This file was world-readable, allowing inquisitive users to pull password hashes for other accounts from the file and run them through password-cracking utilities. Eventually, the password hashes were moved to a file readable only by root: `/etc/shadow`.
+
+Example
+`username:password:last password change:min:max:warning:inactive:expired`
+
+The password information is manipulated with the `chage` command.
+
+### Create, modify, and delete user accounts
+- Create - `usedadd`  - `sudo useradd user1`
+  > After creating the user set the password using `passwd`
+- Modify - `usermod` - `sudo usermod user1 --login userone --comment "User One"`
+    - -   `--comment` (`-c`): Modifies the comment field
+    -   `--home` (`-d`): Modifies home directory information
+    -   `--expiredate` (`-d`): Changes account-expiration settings
+    -   `--login` (`-l`): Modifies the username
+    -   `--lock` (`-L`): Locks a user account
+    -   `--unlock` (`-U`): Unlocks a user account
+- Delete - `userdel` - `sudo userdel user1`
+    -   `--force` (`-f`): Deletes the account (including mail and home directory), even if the user is still logged in
+    -   `--remove` (`-r`): Deletes the account (including mail and home directory), but the user must be logged out
+### Managing group membership
+-   `usermod`: Update group membership
+-   `id`: Display a list of groups the user is a member of
+-   `cat /etc/group`: Show a list of existing groups, with membership displayed in the last field
