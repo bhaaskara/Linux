@@ -1,7 +1,14 @@
 # Important files
+## System
+## Users and groups
 Contents/Details | File
 ---------------- | ----
 User details | `/etc/passwd`
+Encrypted passwords | `/etc/shadow`
+Groups info | `/etc/group`
+Config for Sudo | `/etc/sudoers`
+
+
 
 # System commands
 Usage | Command
@@ -36,6 +43,11 @@ Set password for an user | `sudo passwd <username>`
 Add a user without login access | `sudo useradd <uname> -s /sbin/nologin`
 Switch user<br />Swich to root user | `su <username>` <br /> `su` or `su bash` 
 Delete an user | `sudo userdel <username>`
+Modify an User |`sudo usermod`
+Change an user account password expiration | `sudo chage`
+
+`It is also important to note that, as opposed to other Linux flavors, the user that is created when Ubuntu is first installed has superuser privileges out-of-the-box.`
+
 
 
 # Groups

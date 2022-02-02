@@ -30,3 +30,6 @@ sudo yum update
 sudo modprobe br_netfilter
 sudo sysctl -p
 ```
+
+## Install nslookup
+`sudo dnf install -y bind-utils`
