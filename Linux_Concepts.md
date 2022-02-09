@@ -117,11 +117,13 @@ Most of these directories exist in all UNIX operating systems and are generally 
 **Common Directories**   
 /                     - "Root," the top of the file system hierarchy  
 |__  /bin         - Binaries and other executable programs  
+|__ /sbin        - similar to the /bin dir, intended to be run by root user.
 |__  /boot       - contains static files required to boot the system  
 |__  /dev        - contains device nodes that represent the devices attached to the system  
 |__  /etc         - System configuration files  
 |__  /home     - Users' home directories   
-|__  /lib  
+|__  /lib          - contains libraries needed by the essential binaries in the /bin and /sbin
+                        Libraries needed by the /usr/bin are located under /usr/lib
 |__  /media   - Automatically detected removable media is mounted in the `/media` directory.  
 |__  /mnt       - reserved for temporarily mounted file systems, such as NFS file system mounts. 
 |__  /opt        - reserved for software and add-on packages that are not part of the default installation.
@@ -140,7 +142,7 @@ Most of these directories exist in all UNIX operating systems and are generally 
    - Common linux commands are located here e.g. ps, Is, ping, grep, cp
 
 /boot - contains static files required to boot the system, for example, the Linux kernel. 
-           These files are essential for the system to boot properly.
+            These files are essential for the system to boot properly.
 > Note: Do not remove the `/boot/` directory. Doing so renders the system unbootable.
 
            
@@ -338,8 +340,8 @@ There are two types of links :
 2.  Hard Links
 
 ##  Soft Links
-`ln  -s [original filename] [link name]`
-
+`ln  -s <original filename> <link name>`
+`stat <filename>`
 - A soft link is similar to the file shortcut feature which is used in Windows Operating systems.
 - Soft Link contains the path for original file and not the contents
 - Removing soft link doesn’t affect anything but removing original file, the link becomes “dangling” link which points to nonexistent file.
@@ -348,7 +350,7 @@ There are two types of links :
 - Link across file systems: If you want to link files across the file systems, you can only use symlinks/soft links.
 
 ## Hard Links
-`ln  [original filename] [link name]`
+`ln  <original filename> <link name>`
 -   Each hard linked file is assigned the same Inode value as the original, therefore they reference the same physical file location. Hard links more flexible and remain linked even if the original or linked files are moved throughout the file system, although hard links are unable to cross different file systems.
 -   ls -l command shows all the links with the link column shows number of links.
 -   Links have actual file contents
@@ -397,7 +399,7 @@ To change permissions for everyone, use “u” for users, “g” for group, �
 -   **chgrp groupname filename**
 -   **chgrp groupname foldername**
 
-`Note that the group must exit before you can assign groups to files and directories.`
+`Note that the group must exist before you can assign groups to files and directories.`
 
 ## To Change Ownership for files and folders
 -   **chown name filename**
@@ -408,7 +410,7 @@ To change permissions for everyone, use “u” for users, “g” for group, �
 To change ownership for all sub files and folders
 -   **chown -R name directoryname**
 
-## To Change Permissions in Numeric Code
+## Absolute method (Change Permissions in Numeric Code)
 -   **0 = No Permission**
 -   **1 = Execute**
 -   **2 = Write**
@@ -541,6 +543,105 @@ searches forwards (downwards) | `:/ `
 searches backwards (upwards) | `:?`
 Displays lines with line numbers on the left side | `:set nu`
 
+# Process management
+A Program loaded into memory and executing is called a process.
+## Process types and states
+**Foreground process** - Initiated and controlled through a terminal session.
+**Background process** - Process not connected to a terminal
+
+**Process states**
+Running
+Waiting
+Stopped
+Zombie/Defunct
+Orphaned
+
+**List of all processes**
+`ps -aux`
+
+**List system mem and CPU usage**
+`top`
+`htop`
+
+Usage | Command
+:--- | :---
+List all running processes | `ps -A`
+List processes owned by you | `ps -X`
+`ps -e`
+`ps -r`
+List processes by a user | `ps -fU test1`
+List processes by a group | `ps -fG group1`
+List custom fields | `ps -eo pid,ppid,user,cmd`
+Real time monitoring | `watch -n 1 'ps -eo pid,%mem,%cpu, --sort=-%mem | head'` 
+
+# Service Management
+The fundamental purpose of an init system is to initialize the components that must be started after the Linux kernel is booted (traditionally known as “userland” components). The init system is also used to manage services and daemons for the server at any point while the system is running.
+
+## Starting and Stopping Services
+To start a `systemd` service, executing instructions in the service’s unit file, use the `start` command.
+`sudo systemctl start <service name>`
+`sudo systemctl stop <service/application name>
+
+## Restarting and Reloading
+To restart a running service, you can use the `restart` command:
+
+```bash
+sudo systemctl restart <application>
+```
+
+If the application in question is able to reload its configuration files (without restarting), you can issue the `reload` command to initiate that process:
+
+```bash
+sudo systemctl reload <application>
+```
+
+If you are unsure whether the service has the functionality to reload its configuration, you can issue the `reload-or-restart` command. This will reload the configuration in-place if available. Otherwise, it will restart the service so the new configuration is picked up:
+
+```bash
+sudo systemctl reload-or-restart <application>
+```
+## Enabling and Disabling Services
+To tell `systemd` to start services automatically at boot, you must enable them.
+
+To start a service at boot, use the `enable` command:
+```bash
+sudo systemctl enable <application>
+```
+
+This will create a symbolic link from the system’s copy of the service file (usually in `/lib/systemd/system` or `/etc/systemd/system`) into the location on disk where `systemd` looks for autostart files (usually `/etc/systemd/system/some_target.target.wants`. We will go over what a target is later in this guide).
+
+To disable the service from starting automatically, you can type:
+```bash
+sudo systemctl disable application.service
+```
+
+This will remove the symbolic link that indicated that the service should be started automatically.
+
+> enabling a service does not start it in the current session. If you wish to start the service and also enable it at boot, you will have to issue both the `start` and `enable` commands.
+
+## Checking the Status of Services
+
+To check the status of a service on your system, you can use the `status` command:
+
+```bash
+systemctl status <application.service>
+```
+This will provide you with the service state, the cgroup hierarchy, and the first few log lines.
+
+```sh
+systemctl is-active application.s
+systemctl is-enabled application.service
+systemctl is-failed application.service
+```
+
+## Listing all services/Units
+Usage | Command
+:-- | :--
+List active units | `systemctl list-units`
+List all units | `systemctl list-units --all`
+List only inactive | `systemctl list-units --all --state=inactive`
+List unit files | `systemctl list-unit-files`
+
 # Networking
 https://www.redhat.com/sysadmin/sysadmin-essentials-networking-basics
 https://medium.com/@IBMDeveloper/learn-linux-101-networking-fundamentals-e8d9ece93b1f
@@ -611,4 +712,82 @@ nslookup command | `nslookup redhat.com`
 displays the network connectivity path | `tracepath -n sat65server`
 List of ports and listening status | `netstat -a`
 List all ports status | ` netstat -tlupn`
+
+# Disk management
+## Creating standard partition
+Partition is nothing but creating logical regions on the hard disk/storage device.
+
+Primary partition ?
+extended partition ?
+
+### Steps for creating partition
+Attach new disk to the server
+Scan for new hardware changes or reboot
+fdisk /dev/newdiskname
+n, part type, Specify size and save & exit
+udevadm settle
+mark file system
+Mount and add fstab entry for permanent mount
+
+### Steps for deleting a partition
+Run final archive backup
+Bring down applications hosted on partition
+un-mount mount point
+delete partition using fdisk/gdisk utilities
+Destroy the HDD
+
+List the connected Hard disks
+`lsblk`
+`fdisk -l`
+
+Scan for new disks
+`udevadm trigger`
+`fdisk -l` or `lsblk`
+
+If the new disk doesnt list
+`ls /sys/class/scsi_host/ |while read host; do echo "---" > /sys/class/scsi_host/$host/scan; done`
+
+then list
+`fdisk -l` or `lsblk`
+
+Format and create fs on new disk
+`fdisk /dev/sdb`
+- n - new partition
+- P - Primary partition
+- size can be mention as +2G
+- wq - save and exit
+
+run `udevadm settle`
+list them `lsblk` or `fdisk -l`
+
+create Logical partition on the newly created physical partition
+`fdisk /dev/sdb`
+- n 
+- l - logical partition
+- mention size +1G
+- wq
+`udevadm settle`
+
+create a file system
+`mkfs.ext4 /dev/sdb5`
+`mkfs.xfs /dev/sdb1`
+
+Create mount point `mkdir /data1`
+mount the new fs  `mount /dev/sdb1 /data1`
+list them `df -h` or `df -Th`
+
+## Delete a partition
+Unmount  `umount /data1`
+                 `df -h`
+`fdisk /dev/sdb`
+- d - delete a partition
+- mention the number
+- P - list the partitions
+- wq - save and exit
+
+`udevadm settle`
+`lsblk`
+
+
+# LVM
 
