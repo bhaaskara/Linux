@@ -790,4 +790,4 @@ Unmount  `umount /data1`
 
 
 # LVM
-
+https://www.redhat.com/sysadmin/lvm-vs-partitioning
