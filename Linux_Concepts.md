@@ -504,12 +504,40 @@ Multiple changes can be specified by separating multiple sets of symbolic notati
 > `umask a=`
    Sets the file creation mask so that new files are inaccessible to everyone.
 
-## Specifying the file creation mask using numeric representation
+### Specifying the file creation mask using numeric representation
    `umask 022`
    > This is the same as running **umask 0022**; if you specify only three digits, the first digit will be assumed to be zero.
 
+## Sticky Bit
+The sticky bit was initially introduced to ‘stick’ an executable program’s text segment in the swap space even after the program has completed execution, to speed up the subsequent runs of the same program. However, these days with faster storage and RAM the sticky bit means something entirely different.
 
-   # VI Editor
+Think of a scenario where you create a Linux directory that can be used by all the users of the Linux system for creating files. Users can create, delete or rename files according to their convenience in this directory. For all those who think that why would such a directory be created? There exists, for example, /tmp directory in the Linux system that can be used by different Linux users to create temporary files.
+Now, what if an user accidentally or deliberately deletes (or rename) a file created by some other user in this directory?
+
+Well, to avoid these kind of issues, the concept of sticky bit is used.
+
+A Sticky bit is a permission bit that is set on a file or a directory that lets only the owner of the file/directory or the root user to delete or rename the file. No other user is given privileges to delete the file created by some other user.
+
+Usage | command
+:-- | :--
+Set the sticky bit | `chmod +t <dir/file>`
+Remove sticky bit | `chmod -t <dir/file>`
+Check the sticky bit | `ls -al `
+
+## The setuid bit
+This bit is present for files which have executable permissions. The setuid bit simply indicates that when running the executable, it will set its permissions to that of the user who created it (owner), instead of setting it to the user who launched it. Similarly, there is a setgid bit which does the same for the gid.
+
+Set the setuid bit
+`chmod u+s <file>`
+
+## The setgid bit
+The setgid affects both files as well as directories. When used on a file, it executes with the privileges of the group of the user who owns it instead of executing with those of the group of the user who executed it.
+When the bit is set for a directory, the set of files in that directory will have the same group as the group of the parent directory, and not that of the user who created those files. This is used for file sharing since they can be now modified by all the users who are part of the group of the parent directory.
+
+Set the setgid bit
+`chmod g+s <dir>`
+
+# VI Editor
    You can use the **vi** editor to edit an existing file or to create a new file from scratch in Linux.
    An improved version of the vi editor which is called the **VIM**.
 
