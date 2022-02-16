@@ -713,6 +713,31 @@ displays the network connectivity path | `tracepath -n sat65server`
 List of ports and listening status | `netstat -a`
 List all ports status | ` netstat -tlupn`
 
+## Firewall
+A firewall is defined as **a solution or service that regulates, protects, and blocks network traffic as it passes to and from a server.**
+
+The Linux kernel includes the _Netfilter_ subsystem, which is used to manipulate or block network traffic headed into or through your server. All modern Linux firewall solutions use this system for packet filtering.
+
+### IPTABLES
+The kernel’s packet filtering system would be of little use to administrators without a userspace interface to manage it. This is the purpose of iptables: When a packet reaches your server, it will be handed off to the Netfilter subsystem for acceptance, manipulation, or rejection based on the rules supplied to it from userspace via iptables.
+
+### ufw - Uncomplicated Firewall
+The default firewall configuration tool for Ubuntu is ufw. Developed to ease iptables firewall configuration, ufw provides a user-friendly way to create an IPv4 or IPv6 host-based firewall.
+
+ufw by default is initially disabled.
+
+“ufw is not intended to provide complete firewall functionality via its command interface, but instead provides an easy way to add or remove simple rules. It is currently mainly used for host-based firewalls.”
+
+Usage | command
+:-- | :--
+Enable ufw | `sudo ufw enable`
+Check the status | `sudo ufw status`
+Open a ssh port | `sudo ufw allow 22`
+Rules can be added using numbered format | `sudo ufw insert 1 allow 80`
+View the numbered format | `sudo ufw status numbered`
+close an opened port | `sudo ufw deny 22`
+Delete a rule | `sudo ufw delete deny 22`
+
 # Disk management
 ## Creating standard partition
 Partition is nothing but creating logical regions on the hard disk/storage device.
