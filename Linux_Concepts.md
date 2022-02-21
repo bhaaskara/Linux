@@ -844,3 +844,154 @@ Unmount  `umount /data1`
 
 # LVM
 https://www.redhat.com/sysadmin/lvm-vs-partitioning
+
+# Job scheduling
+## Cron
+The Cron daemon is a built-in Linux utility that runs processes/scripts on your system at a scheduled time. Cron reads the **crontab** (cron tables) for predefined commands and scripts.
+
+###  Crontab Syntax
+_**Cron**_ reads the configuration files for a list of commands to execute. The daemon uses a specific syntax to interpret the lines in the _**crontab**_ configuration tables.
+
+`a b c d e /directory/command output`
+
+- The first five fields **`a b c d e`** specify the time/date and recurrence of the job.
+- In the second section, the **`/directory/command`** specifies the location and script you want to run.
+- The final segment **`output`** is optional. It defines how the system notifies the user of the job completion.
+
+#### Cron Job Time Format
+The first five fields in the command represent numbers that define when and how often the command runs. A space separates each position, which represents a specific value.
+
+The table below summarizes possible values for the fields and the example syntax:
+
+Field | Possible values | Syntax | Notes 
+:-- | :-- | :-- | :--
+[a] minute | 0-59 | 7 * * * * | Every 7 minutes
+[b] Hour | 0-23 | 0 7 * * * | 7 am every day
+[c] day | 0-31 | 0 0 7 * * | every month 7th
+[d] month | 0-12 | 0 0 0 7 * | July 1st
+[e] day of the week | 0-7 | 0 0 * * 7 | every sunday (0,7 means sunday)
+
+> Cron uses local time
+> We can easily determine our schedule on [https://crontab.guru/](https://crontab.guru/)
+
+#### Use special string to save time
+Instead of the first five fields, you can use any one of eight special strings. It will not just save your time but it will improve readability.
+
+Special string | Meaning
+:-- | :--
+@reboot | Run once, at startup.
+@yearly | Run once a year, `0 0 1 1 *`
+@annually | (same as @yearly)
+@monthly | Run once a month, `0 0 1 * *`
+@weekly | Run once a week, `0 0 * * 0`
+@daily | Run once a day, `0 0 * * *`
+@midnight |(same as @daily)
+@hourly | Run once an hour, `0 * * * *`
+
+#### Script to execute
+mention the absolute path of the script
+`/root/backup.sh`
+
+#### Output (Optional)
+By default, **`cron`** sends an email to the owner of the crontab file when it runs. 
+
+As this is an optional feature, you can prevent that scenario by disabling the output email. To turn off email output, add the following string, **`>/dev/null 2>&1`,** after the timing and command fields.
+
+```
+* * * * * directory/command >/dev/null 2>&1
+```
+
+### Using Operators
+For efficiency, cron syntax also uses operators. Operators are special characters that perform operations on the provided values in the cron field.
+
+-   **An asterisk (*)** stands for all values. Use this operator to keep tasks running during all months, or all days of the week.
+-   **A comma (,)** specifies separate individual values.
+-   **A dash (–)** indicates a range of values.
+-   **A forward-slash (/)** is used to divide a value into steps. (*/2 would be every other value, */3 would be every third, */10 would be every tenth, etc.)
+
+### Setting Up a Cron Job
+Check cron service status  
+`sudo systemctl status cron`
+
+-   `crontab -a <filename>`: create a new `<filename>` as crontab file for the current user
+-   `crontab -e`: edit crontab file or create one if it doesn’t already exist for the current user
+-   `crontab –u other_username –e` : Edit crontab for a Different User
+-   `crontab -l`: show up our crontab file
+-   `crontab -r`: delete our crontab file
+-   `crontab -v`: show up the last time we have edited our crontab file
+
+### Default /etc/crontab file and /etc/cron.d/* directories
+**/etc/crontab** is system crontabs file. Usually only used by root user or daemons to configure system wide jobs. 
+**/var/spool/cron/crontabs or /var/cron/tabs/** is directory for personal user crontab files.
+
+Additionally, cron reads the files in /etc/cron.d/ directory. 
+Usually system daemon such as sa-update or sysstat places their cronjob here
+
+Directory | Description
+:-- | :--
+/etc/cron.d/ | Put all scripts here and call them from /etc/crontab file.
+/etc/cron.daily/ | Run all scripts once a day
+/etc/cron.hourly/ | Run all scripts once an hour
+/etc/cron.monthly/ | Run all scripts once a month
+/etc/cron.weekly/ | Run all scripts once a week
+
+### How do I backup installed cron jobs entries?
+Simply type the following command to backup your cronjobs to a nas server mounted at /nas01/backup/cron/users.root.bakup directory:  
+`crontab -l > /nas01/backup/cron/users.root.bakup  
+`crontab -u userName -l > /nas01/backup/cron/users.userName.bakup`
+
+## At
+The **at** command is used for jobs that only need to be run once. These jobs are run from either the command line or from scripts. The **at** entries do not go in the **crontab** files.
+
+The **at** command reads from standard input the names of commands to be run at a later time and allows you to specify when the commands should be run
+
+## Submitting an at job
+`echo <_command to execute_> |at -t 950603220000`
+`echo <_command to execute_> |at now + 200 minutes`
+
+The Date variable to the **-t** flag is specified using the following format:
+
+[[CC]YY]MMDDhhmm[.SS]
+
+The digits in the Date variable are defined as follows:
+
+-   CC specifies the first two digits of the year (the century).
+-   YY specifies the second two digits of the year.5
+-   MM specifies the month of the year (01 through 12).
+-   DD specifies the day of the month (01 through 31).
+-   hh specifies the hour of the day (00 through 23).
+-   mm specifies the minute of the hour (00 through 59).
+-   SS specifies the second of the minute (00 through 59).
+-   Both the CC and YY digits are optional. If neither is given, the current year is assumed.
+
+# Nice and Renice
+**Nice** command in Linux helps in execution of a program/process with modified scheduling priority. It launches a process with a user-defined scheduling priority. In this, if we give a process a higher priority, then Kernel will allocate more CPU time to that process. 
+**Renice** command allows you to change and modify the scheduling priority of an already running process.
+
+Niceness values  range from -20 (most favorable to the process) to 19 (least favorable  to the process).
+
+Check NICE value
+`ps -el`
+```
+$ ps -el |more
+F S   UID     PID    PPID  C PRI  NI ADDR SZ WCHAN  TTY          TIME CMD
+4 S     0       1       0  0  80   0 - 25470 -      ?        00:00:01 systemd
+1 S     0       2       0  0  80   0 -     0 -      ?        00:00:00 kthreadd
+1 I     0       3       2  0  60 -20 -     0 -      ?        00:00:00 rcu_gp
+1 I     0       4       2  0  60 -20 -     0 -      ?        00:00:00 rcu_par_gp
+1 I     0       6       2  0  60 -20 -     0 -      ?        00:00:00 kworker/0:0H-kblockd
+```
+
+Set the priority of a new process
+`nice -10 <process/script> # This sets a nice value of 10`
+`nice --10 <process> # This sets a nice value of -10`
+
+Change the priority of a running process
+`Sudo renice -n 15 -p <PID> #sets a nice of 15`
+`sudo renice -15 <PID> # sets a nice of -15`
+`sudo renice 15 <PID> # sets a nice of 15`
+`sudo renice -n 10 -g <Groupname> #Set the priority of all programs of a group`
+`sudo renice -n 10 -u <username> #set the priority of all programs of a user`
+
+`nice #shows the current default nice value`
+
