@@ -995,3 +995,91 @@ Change the priority of a running process
 
 `nice #shows the current default nice value`
 
+# SFTP setup
+Data security and credentials encryption are the thumb rules for a system administrator. FTP (File Transfer Protocol) is great for transferring files, but it is not as secure to use over the network. By using this protocol, your data and credentials are transferred without any encryption method. SFTP, abbreviated as Secure File Transfer Protocol, is used for providing better security. SFTP works over the SSH protocol by providing the encryption required to establish a secure connection. Therefore, you can transfer data to or from your local computer system in a secure way. Hence, the secure file transfer protocol (SFTP) is more secure than the simple file transfer protocol (FTP). Sometimes, you may need to provide remote access to the SFTP/FTP server to the development teams or other clients. In this case, SFTP allows you to provide secure limited access to specific directories and files.
+
+## Prereqs
+You need root privileges or sudo access for creating a new SFTP user and for executing the administrative commands.
+
+## Setting up SFTP Server on Ubuntu 20.04
+1. Install SSH
+2. Change SSHD configuration for SFTP group
+3. Restart/Reload SSH services
+4. Create SFTP users group
+5. Create a new SFTP user
+6. Grant permissions to the specific directory
+
+### Step1. Install SSH
+Check if its installed or not
+`apt list --installed |grep -i ssh`
+`systemctl status ssh #Is ssh running`
+
+### Step2. Change SSHD configuration for SFTP group
+Paste the following lines at the end of the file: /etc/ssh/sshd_config
+```
+Match group sftp  
+ChrootDirectory /home  
+X11Forwarding no  
+AllowTcpForwarding no  
+ForceCommand internal-sftp
+```
+The above configuration will allow the sftp users group to access their home directories through the SFTP. However, not allowed to access the normal SSH shell.
+
+### Step3. Reload SSH service
+`sudo systemctl reload ssh`
+`systemctl status ssh # Check the reload status`
+
+### Step4. Create SFTP users group
+To grant SFTP access to users, you will create SFTP user accounts. First, create a new user group for ‘SFTP’ users. For our convenience, all SFTP users will belong to the same group.
+
+`sudo addgroup sftp`
+
+### Step 5: Create a new SFTP user
+Once the new group is added, create a new sftp user and then add this user into the sftp group
+
+`sudo useradd -m sftp -g sftp`
+
+Set the password for the newly created sftp user
+`passwd sftpuser`
+
+### Step 6: Grant permissions to the specific directory
+Grant full permissions to the sftp user on their home directory. But, block other users on the system from accessing this directory.
+`sudo chmod 700 /home/sftpuser`
+
+SFTP server configurations are completed. 
+Now, you can log in with the sftp credentials to check either everything is working properly or not.
+
+## Login through the SFTP
+You can log in via the SFTP using two different methods.
+1.  Connect to the SFTP by using the command line method
+2.  Connect to the SFTP using the GUI
+
+### Connect to the SFTP by using the command line method
+```shell
+sftp <username>@<serverip>
+
+Example:
+master@master:~$ sftp sftpuser@192.168.0.105
+The authenticity of host '192.168.0.105 (192.168.0.105)' can't be established.
+ECDSA key fingerprint is SHA256:6EYMJFcMywhTzol4xEV2ZbX20n2Xx8oV1Le2OskPRDY.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '192.168.0.105' (ECDSA) to the list of known hosts.
+sftpuser@192.168.0.105's password:
+Connected to 192.168.0.105.
+sftp> ls
+jumphost  sftpuser  test2
+sftp> bye #to Exit
+
+```
+
+## Usefull FTP commands
+**FTP commands for Linux command prompt**
+
+bye           - Terminate the session
+binary       - Set binary transfer type
+delete       - Delete remote file
+mdelete    - Delete multiple files
+get            - receive a file
+mget         - receive multiple files
+put            - send a file
+mput         - send multiple files
