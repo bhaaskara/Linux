@@ -606,8 +606,8 @@ Real time monitoring | `watch -n 1 'ps -eo pid,%mem,%cpu, --sort=-%mem | head'`
 The fundamental purpose of an init system is to initialize the components that must be started after the Linux kernel is booted (traditionally known as “userland” components). The init system is also used to manage services and daemons for the server at any point while the system is running.
 
 ## Starting and Stopping Services
-To start a `systemd` service, executing instructions in the service’s unit file, use the `start` command.
-`sudo systemctl start <service name>`
+To start a `systemd` service, executing instructions in the service’s unit file, use the `start` command.  
+`sudo systemctl start <service name>`  
 `sudo systemctl stop <service/application name>
 
 ## Restarting and Reloading

@@ -30,12 +30,17 @@ vi /etc/fstab
 > Save and exit
 ```
 # Change the hostname
-Modift the `/etc/hostname` file  
+Modify the `/etc/hostname` file  
 ```sh
 vi /etc/hostname
 <hostname>
 ```
 restart the server `init 6`  
+
+**To change the hostname temporarily** 
+`hostname <hostname>`
+logoff and login
+
 # Disable SELINUX on REDHAT/CentOS
 Check the current SELinux status
 ```

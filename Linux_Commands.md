@@ -1,12 +1,15 @@
 # Important files
 ## System
 ## Users and groups
-Contents/Details | File
----------------- | ----
+Contents/Details | Ubuntu | Redhat/CentOS
+---------------- | ---- | ----
 User details | `/etc/passwd`
 Encrypted passwords | `/etc/shadow`
 Groups info | `/etc/group`
 Config for Sudo | `/etc/sudoers`
+log files | `/var/log/syslog` <br/> `/var/log/auth.log`| `var/log/messages` <br/> `/var/log/secure`
+
+
 
 
 
@@ -27,6 +30,8 @@ Search for a package | `yum list <pkg>`
 Pachage info | `yum info <pkg>`
 Install a package | `yum install <pkg> -y`
 Install a package from rpm file | `yum localinstall <rpmfile> -y`
+
+Ref: https://access.redhat.com/sites/default/files/attachments/rh_yum_cheatsheet_1214_jcs_print-1.pdf
 
 ### Ubuntu
 Usage | Command
