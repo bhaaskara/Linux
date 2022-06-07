@@ -59,6 +59,10 @@ vi /etc/selinux/config
 SELINUX=disabled
 ```
 Reboot the server `init 6`  
+
+# Update ntp time
+`sudo apt-get install ntpdate; sudo ntpdate ntp.ubuntu.com`
+
 # Disable firewall
 ## on REDHAT/CentOS
 Check the firewall status
