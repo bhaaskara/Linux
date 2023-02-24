@@ -22,6 +22,7 @@ Usage | Command
   Port status | `netstat -anp \|grep <PortNum>`
   Memory usage | `free -m`
   Shell   | `echo $SHELL`
+
 ## Install a Package/Software
 ### CentOS / Redhat
 Usage | Command
@@ -71,6 +72,7 @@ Search in a file | `grep <pattern> <filename>`
 Case insensitive | `grep -i <pattern> <filename>`
 Search results with line numbers | `grep -in <pattern> <filename>`
 Search that doesnt match | `grep -iv <pattern> <filename>`
+Search in a dir | `grep -ir <pattern> <dir>`
 
 # Sorting
 Usage | Command
