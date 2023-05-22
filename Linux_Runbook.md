@@ -92,3 +92,16 @@ visudo
 <username>  ALL=(ALL) NOPASSWD:ALL
 #Save and exit
 ```
+
+# Encoding and decoding
+## Decode the base64 encoded data
+on windows
+First run the below command to make the file, linucx compatible.
+convert the line endings from windows to Linux
+```
+((Get-Content .\terraform.tfstate) -join "`n") + "`n" | Set-Content -NoNewline .\terraform.tfstate
+```
+and on gitbash run the below command
+```
+cat decode.txt |base64 --decode
+```
