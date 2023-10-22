@@ -8,7 +8,7 @@ Encrypted passwords | `/etc/shadow`
 Groups info | `/etc/group`
 Config for Sudo | `/etc/sudoers`
 log files | `/var/log/syslog` <br/> `/var/log/auth.log`| `var/log/messages` <br/> `/var/log/secure`
-
+Switch to root without paasword | `sudo su`
 
 
 
